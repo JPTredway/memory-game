@@ -23,14 +23,6 @@ On each turn:
 - If the cards do not match, both cards are returned to their initial hidden state
 - The game ends once all cards have been correctly matched.
 
-### Screenshots
-
-![Start Screen](screenshots/start-screen.png "start screen")
-
-![Game in Play](screenshots/game-board.png "Game Board") ![Game in Play](screenshots/play.png "Game in play")
-
-![Win Screen](screenshots/win-screen.png "win screen")
-
 ## Resources used to create the game:
 
 ### Random shuffle:
