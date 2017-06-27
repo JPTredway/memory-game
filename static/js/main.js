@@ -1,4 +1,4 @@
-// Card constructor used with CARD_DATA from data.js
+// card constructor used for CARD_DATA
 class Card {
 		constructor(card, pairNum) {
 		var CARD_ID = card.id + '_' + pairNum;
@@ -16,18 +16,18 @@ class Card {
 	}
 }
 
+// set default vars
 var matchesFound = 0;
 var moveCount = 0;
 var numOfPairs = 0;
 var cardsPerMatch = 2;
 var compareArray = [];
-var gameStarted = false;
 
 function makeArray() {
 	// creates an array from data.js
 	var pairsArray = [];
 
-	// Create pairs of each card and add to array
+	// create pairs of each card and add to array
 	CARD_DATA.forEach(function(card) {
 		pairsArray.push(new Card(card, 1));
 		pairsArray.push(new Card(card, 2));
@@ -41,14 +41,14 @@ function makeArray() {
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
 
-  // While there remain elements to shuffle
+  // while there remain elements to shuffle
   while (0 !== currentIndex) {
 
-    // Pick a remaining element
+    // pick a remaining element
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
 
-    // And swap it with the current element
+    // and swap it with the current element
     temporaryValue = array[currentIndex];
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;
@@ -59,28 +59,29 @@ function shuffle(array) {
 }
 
 function fillBoard(cardArray) {
-	// Clear current board
+	// clear current board
 	$('#gameboard').empty();
 
 	cardArray.forEach(function(card) {
 
-		// Add cards to game board
+		// add each card to gameboard
 		$('#gameboard').append(card.html);
 
-		// Bind each card to click function
+		// bind each card to click function
 		$(card.id).click(function() {
 
+			// add flipped class on click
 			$(card.id).addClass('flipped');
 			
 			// if array is empty, add card to the array.
-			// if card is not already in array, add card to array
-			// else add to array and compare cards
+			// if card is not already in array, add card to 2nd spot in array
 			if (compareArray.length === 0) {
 				compareArray[0] = card;
 			} else if (compareArray[0] !== card) {
 				compareArray[1] = card;
 			};
 
+			// check cards for match once array has two cards
 			if (compareArray.length === cardsPerMatch) {
 				checkForMatch();
 			}
@@ -89,24 +90,30 @@ function fillBoard(cardArray) {
 }
 
 function checkForMatch() {
-	// Hide cards if not a match
-	// Reset array regardless of match
+	// hide cards if not a match
+	// reset array regardless of match
 	if (compareArray[0].name !== compareArray[1].name) {
 		notMatch();
 	} else {
+		// increase number of matches found and update html
 		matchesFound++;
 		$('.matches-found').text(matchesFound);
 		
+		// end game when all pairs have been matched
 		if (matchesFound === numOfPairs) {
 			gameWon();
 		}
 	}
+	// increase move count and update html
 	moveCount++;
 	$('.move-count').text(moveCount);
+
+	// clear match array
 	compareArray.splice(0, cardsPerMatch);
 }
 
 function notMatch() {
+	// remove class flipped
 	compareArray.forEach(function(card) {
 		setTimeout(function() {
 			$(card.id).removeClass('flipped');
@@ -118,6 +125,8 @@ function gameWon() {
 	// show winning modal
 	setTimeout(function() {
 		$('#win-modal').modal('show');
+
+		// clicking replay hides modal and starts game again
 		$('.replay').click(function() {
 			$('#win-modal').modal('hide');
 
@@ -127,7 +136,7 @@ function gameWon() {
 }
 
 $(document).ready(function() {
-	// Add 16 filler cards until game is started
+	// add 16 filler cards to gameboard until game is started
 	var cardsAdded = 0;
 
 	while (cardsAdded < 16) {
@@ -156,7 +165,7 @@ function startGame() {
 		matchesFound = 0;
 		moveCount = 0;
 
-		//reset html
+		// make sure html is cleared
 		$('.matches-found').text('0');
 		$('.move-count').text('0');
 		
@@ -165,5 +174,5 @@ function startGame() {
 	});
 }
 
+// starts the game
 startGame();
-
