@@ -1,3 +1,4 @@
+// Card constructor used with CARD_DATA from data.js
 class Card {
 		constructor(card, pairNum) {
 		var CARD_ID = card.id + '_' + pairNum;
@@ -18,6 +19,7 @@ class Card {
 var matchesFound = 0;
 var moveCount = 0;
 var numOfPairs = 0;
+var cardsPerMatch = 2;
 var compareArray = [];
 var gameStarted = false;
 
@@ -79,7 +81,7 @@ function fillBoard(cardArray) {
 				compareArray[1] = card;
 			};
 
-			if (compareArray.length === 2) {
+			if (compareArray.length === cardsPerMatch) {
 				checkForMatch();
 			}
 		});
@@ -101,7 +103,7 @@ function checkForMatch() {
 	}
 	moveCount++;
 	$('.move-count').text(moveCount);
-	compareArray.splice(0, 2);
+	compareArray.splice(0, cardsPerMatch);
 }
 
 function notMatch() {
@@ -119,8 +121,7 @@ function gameWon() {
 		$('.replay').click(function() {
 			$('#win-modal').modal('hide');
 
-			// Bring up start modal
-			$('#start-modal').modal('show');
+			startGame();
 		})
 	}, 600);
 }
@@ -139,27 +140,30 @@ $(document).ready(function() {
 	};
 })
 
-// show start modal on page load
-$('#start-modal').modal('show');
-
-// bind replay button to click function showing start modal
-$('.replay').click(function() {
+function startGame() {
+	// show start modal on page load
 	$('#start-modal').modal('show');
-})
 
-// bind start-game button to click function hiding modal and creating gameboard	
-$('#start-game').click(function() {
-	// reset progress
-	numOfPairs = 0;
-	matchesFound = 0;
-	moveCount = 0;
+	// bind replay button to click function showing start modal
+	$('.replay').click(function() {
+		$('#start-modal').modal('show');
+	});
 
-	//reset html
-	$('.matches-found').text('0');
-	$('.move-count').text('0');
-	
-	$('#start-modal').modal('hide');
-	fillBoard(makeArray());
-})
+	// bind start-game button to click function hiding modal and creating gameboard	
+	$('#start-game').click(function() {
+		// reset progress
+		numOfPairs = 0;
+		matchesFound = 0;
+		moveCount = 0;
 
-// $('#win-modal').modal('show');
+		//reset html
+		$('.matches-found').text('0');
+		$('.move-count').text('0');
+		
+		$('#start-modal').modal('hide');
+		fillBoard(makeArray());
+	});
+}
+
+startGame();
+
