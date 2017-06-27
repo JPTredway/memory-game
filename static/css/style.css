@@ -1,0 +1,38 @@
+* { font-family: 'Lato', sans-serif; box-sizing: border-box; }
+
+body { margin: 0px; background: #ececec;}
+h1, h2, h3, h4, h5 ,h6 { font-weight: 300; margin: 0; padding: 20px 0px; }
+h1 { font-size: 60px; }
+h2 { font-size: 35px; }
+h3 { font-size: 20px; }
+p { font-weight: 400; font-size: 16px; }
+a { font-weight: 300; text-decoration: none; }
+hr { border-left: none; border-top: 1px solid #ccc; border-right: none; border-bottom: none; width: 50%; }
+img { max-width: 100%; max-height: 100%; }
+
+.vertical-align { position: relative; top: 50%; transform: translateY(-50%); -ms-transform: translateY(-50%); -webkit-transform: translateY(-50%); }
+.center { margin: 0 auto; }
+.text-center { text-align: center; }
+.active { border-bottom: 1px solid #fff; }
+.full-size { width: 100%; height: 100%; }
+.flex { display: flex; }
+
+div.title { padding: 30px; }
+div.title>img { width: 50%; min-width: 300px; }
+
+div.modal-position { top: 15%; }
+div.modal-content>div>div.modal-button { align-self: center; }
+
+div#gameboard { margin: 0 auto 50px; width: 640px; flex-wrap: wrap; }
+div.card { position: relative; float: left; width: 150px; height: 150px; margin: 5px; }
+div.card:hover { cursor: pointer; }
+div.card>div.back, div.card>div.front { position: absolute; top: 0; left: 0; -webkit-transition: -webkit-transform 0.3s; transition: transform 0.3s; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 5px; }
+div.card.flipped>div.back { transform: rotateY(-180deg); }
+div.card.flipped>div.front { transform: rotateY(0); }
+div.card>div.back { padding: 20px; background: #333; }
+div.card>div.back>img { opacity: 0.1; }
+div.card>div.front { transform: rotateY(-180deg); padding: 10px; background: #ccc; }
+div.card>div.front>img { max-width: 100%; max-height: 100%; align-self: center; }
+
+div.scores { width: 640px; }
+div.scores>div { align-self: center; }
