@@ -23,6 +23,7 @@ var numOfPairs = 0;
 var cardsPerMatch = 2;
 var compareArray = [];
 
+
 function makeArray() {
 	// creates an array from data.js
 	var pairsArray = [];
@@ -69,6 +70,10 @@ function fillBoard(cardArray) {
 
 		// bind each card to click function
 		$(card.id).click(function() {
+
+			if ($(this).hasClass('flipped')) {
+				return false;
+			};
 
 			// add flipped class on click
 			$(card.id).addClass('flipped');
