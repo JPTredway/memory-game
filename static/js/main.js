@@ -22,6 +22,7 @@ var moveCount = 0;
 var numOfPairs = 0;
 var cardsPerMatch = 2;
 var compareArray = [];
+var timerStarted = false;
 
 
 function makeArray() {
@@ -59,6 +60,38 @@ function shuffle(array) {
   return array;
 }
 
+function startTimer() {
+	var counter = 0;
+	runTimer();
+	var timer = setInterval(runTimer, 1000);
+
+	function runTimer() {
+		if (matchesFound != numOfPairs) {
+			var elapsedTime = counter++;
+			displayElapsed(elapsedTime);
+		} else {
+			clearInterval(timer);
+			return;
+		};
+	};
+
+	function displayElapsed(elapsedTime) {
+        // Calculate the number of hours, add a zero in the 10's place if necessary
+        var hours = ("0" + Math.floor(elapsedTime/3600)).slice(-2)
+        // Deduct the number of hours to calculate minutes, add a zero in the 10's place if necessary
+        var minutes = ("0" + Math.floor((elapsedTime - (hours *3600))/60)).slice(-2)
+        // Deduct the number of hours and minutes to calculate minutes, add a zero in the 10's place if necessary
+        var seconds = ("0" + Math.floor((elapsedTime - (hours *3600 ) - (minutes*60)))).slice(-2)
+
+        // Display hours correctly if 1hr or greater
+        if (hours === "00") {
+        	$('.timer').text(minutes + ":" + seconds);	
+        } else {
+        	$('.timer').text(hours + ":" + minutes + ":" + seconds);
+        };
+	};
+};
+
 function fillBoard(cardArray) {
 	// clear current board
 	$('#gameboard').empty();
@@ -70,6 +103,11 @@ function fillBoard(cardArray) {
 
 		// bind each card to click function
 		$(card.id).click(function() {
+
+			if (!timerStarted) {
+				timerStarted = true;
+				startTimer();
+			};
 
 			if ($(this).hasClass('flipped')) {
 				return false;
@@ -129,6 +167,10 @@ function notMatch() {
 function gameWon() {
 	// show winning modal
 	setTimeout(function() {
+		
+		// stop timer
+		timerStarted = false;
+
 		$('#win-modal').modal('show');
 
 		// clicking replay hides modal and starts game again
@@ -173,6 +215,7 @@ function startGame() {
 		// make sure html is cleared
 		$('.matches-found').text('0');
 		$('.move-count').text('0');
+		$('.timer').text('00:00')
 		
 		$('#start-modal').modal('hide');
 		fillBoard(makeArray());
