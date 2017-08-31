@@ -23,7 +23,9 @@ var numOfPairs = 0;
 var cardsPerMatch = 2;
 var compareArray = [];
 var timerStarted = false;
-
+var timerCount = 0;
+var elapsedTime = 0;
+var numOfStars = 3;
 
 function makeArray() {
 	// creates an array from data.js
@@ -61,14 +63,15 @@ function shuffle(array) {
 }
 
 function startTimer() {
-	var counter = 0;
+	var timerCount = 0;
 	runTimer();
 	var timer = setInterval(runTimer, 1000);
 
 	function runTimer() {
-		if (matchesFound != numOfPairs) {
-			var elapsedTime = counter++;
+		if ($('.timer').hasClass('timing'))  {
+			elapsedTime = timerCount++;
 			displayElapsed(elapsedTime);
+			starRating(elapsedTime, moveCount);
 		} else {
 			clearInterval(timer);
 			return;
@@ -90,6 +93,24 @@ function startTimer() {
         	$('.timer').text(hours + ":" + minutes + ":" + seconds);
         };
 	};
+
+	function starRating(elapsedTime, moveCount) {
+		var numOfStars;
+
+		if (elapsedTime <= 5 && moveCount <= 12) {
+			numOfStars = 3;
+		} else if (elapsedTime <= 40 && moveCount <= 16) {
+			numOfStars = 2;
+		} else {
+			numOfStars = 1;
+		};
+
+		if (numOfStars === 2) {
+			$('#star-one').remove()
+		} else if (numOfStars === 1) {
+			$('#star-two').remove()
+		}
+	};
 };
 
 function fillBoard(cardArray) {
@@ -106,6 +127,7 @@ function fillBoard(cardArray) {
 
 			if (!timerStarted) {
 				timerStarted = true;
+				$('.timer').addClass('timing');
 				startTimer();
 			};
 
@@ -165,11 +187,11 @@ function notMatch() {
 }
 
 function gameWon() {
+	// stop timer
+	$('.timer').removeClass('timing');
+
 	// show winning modal
 	setTimeout(function() {
-		
-		// stop timer
-		timerStarted = false;
 
 		$('#win-modal').modal('show');
 
@@ -180,6 +202,18 @@ function gameWon() {
 			startGame();
 		})
 	}, 600);
+}
+
+function addStars() {
+	// clear remaining stars
+	$('.stars').empty()
+
+	// adds three stars to html
+	$('.stars').append(`<img class="star-count" id="star-one" src="images/blackstar.png" alt="blackstar">
+						<img class="star-count" id="star-two" src="images/blackstar.png" alt="blackstar">
+						<img class="star-count" id="star-three" src="images/blackstar.png" alt="blackstar">`);
+
+	console.log('stars were added?');
 }
 
 $(document).ready(function() {
@@ -207,15 +241,24 @@ function startGame() {
 
 	// bind start-game button to click function hiding modal and creating gameboard	
 	$('#start-game').click(function() {
-		// reset progress
+		// reset progress vars
 		numOfPairs = 0;
 		matchesFound = 0;
 		moveCount = 0;
+		numOfStars = 3;
+		timerStarted = false;
+		timerCount = 0;
 
-		// make sure html is cleared
+		// stop timer
+		$('.timer').removeClass('timing');
+
+		// reset html progress
 		$('.matches-found').text('0');
 		$('.move-count').text('0');
 		$('.timer').text('00:00')
+
+		// reset stars
+		addStars();
 		
 		$('#start-modal').modal('hide');
 		fillBoard(makeArray());

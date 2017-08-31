@@ -36,3 +36,5 @@ div.card>div.front>img { max-width: 100%; max-height: 100%; align-self: center; 
 
 div.scores { width: 640px; }
 div.scores>div { align-self: center; }
+
+.star-count { height: 1.5em; display: inline-block; }
