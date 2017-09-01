@@ -97,9 +97,9 @@ function startTimer() {
 	function starRating(elapsedTime, moveCount) {
 		var numOfStars;
 
-		if (elapsedTime <= 5 && moveCount <= 12) {
+		if (elapsedTime <= 15 && moveCount <= 12) {
 			numOfStars = 3;
-		} else if (elapsedTime <= 40 && moveCount <= 16) {
+		} else if (elapsedTime <= 25 && moveCount <= 16) {
 			numOfStars = 2;
 		} else {
 			numOfStars = 1;
