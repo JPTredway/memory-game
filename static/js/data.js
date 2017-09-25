@@ -37,5 +37,39 @@ var CARD_DATA = [{
     name: "The Bends",
     image: "thebends.png",
     id: "thebends"
+  },
+  {
+    name: "The King Of Limbs",
+    image: "kingoflimbs.png",
+    id: "kingoflimbs"
+  },
+  {
+    name: "Best Of",
+    image: "bestof.png",
+    id: "bestof"
+  },
+  {
+    name: "Remixes",
+    image: "remixes.png",
+    id: "remixes"
+  },
+  {
+    name: "Airbag",
+    image: "airbag.png",
+    id: "airbag"
   }
+];
+
+var LEVEL_DATA = [{
+    difficulty: "easy",
+    pairs: 8
+  },
+  {
+    difficulty: "medium",
+    pairs: 10
+  },
+  {
+    difficulty: "hard",
+    pairs: 12
+  },
 ];

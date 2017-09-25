@@ -27,15 +27,25 @@ var timerCount = 0;
 var elapsedTime = 0;
 var numOfStars = 3;
 
-function makeArray() {
+function makeArray(levelChoice) {
 	// creates an array from data.js
 	var pairsArray = [];
+	var totalPairs;
+
+	if (levelChoice === "easy") {
+		totalPairs = 8;
+	} else if (levelChoice === "medium") {
+		totalPairs = 10;
+	} else {
+		totalPairs = 12;
+	};
 
 	// create pairs of each card and add to array
-	CARD_DATA.forEach(function(card) {
+	CARD_DATA.some(function(card, levelChoice) {
 		pairsArray.push(new Card(card, 1));
 		pairsArray.push(new Card(card, 2));
 		numOfPairs++;
+		return numOfPairs === totalPairs;
 	});
 
 	// shuffles and returns array
@@ -97,9 +107,9 @@ function startTimer() {
 	function starRating(elapsedTime, moveCount) {
 		var numOfStars;
 
-		if (elapsedTime <= 15 && moveCount <= 12) {
+		if (elapsedTime <= 25 && moveCount <= 15) {
 			numOfStars = 3;
-		} else if (elapsedTime <= 25 && moveCount <= 16) {
+		} else if (elapsedTime <= 35 && moveCount <= 20) {
 			numOfStars = 2;
 		} else {
 			numOfStars = 1;
@@ -212,9 +222,7 @@ function addStars() {
 	$('.stars').append(`<img class="star-count" id="star-one" src="images/blackstar.png" alt="blackstar">
 						<img class="star-count" id="star-two" src="images/blackstar.png" alt="blackstar">
 						<img class="star-count" id="star-three" src="images/blackstar.png" alt="blackstar">`);
-
-	console.log('stars were added?');
-}
+};
 
 $(document).ready(function() {
 	// add 16 filler cards to gameboard until game is started
@@ -228,6 +236,8 @@ $(document).ready(function() {
 									</div>
 								</div>`);
 	};
+	
+	addStars();
 })
 
 function startGame() {
@@ -240,7 +250,12 @@ function startGame() {
 	});
 
 	// bind start-game button to click function hiding modal and creating gameboard	
-	$('#start-game').click(function() {
+	$('.start-game').click(function() {
+
+		var levelChoice = event.target.id;
+
+		// $('#gameboard')
+
 		// reset progress vars
 		numOfPairs = 0;
 		matchesFound = 0;
@@ -261,7 +276,7 @@ function startGame() {
 		addStars();
 		
 		$('#start-modal').modal('hide');
-		fillBoard(makeArray());
+		fillBoard(makeArray(levelChoice));
 	});
 }
 
